@@ -111,7 +111,7 @@ module.exports = {
   rules: isTsProject
     ? tsEslintConfig
     : {
-        strict: ['error', 'never'],
+        // strict: ['error', 'never'],
         'react/display-name': 0,
         'react/jsx-props-no-spreading': 0,
         'react/state-in-constructor': 0,
