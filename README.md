@@ -72,3 +72,19 @@ module.exports = {
   ...fabric.prettier,
 };
 ```
+
+## 案例
+
+`npm start` 然后打开 http://localhost:8000/examples/
+
+线上案例: https://hankliu62.github.io/rc-footer
+
+## 测试
+
+```
+npm run test
+```
+
+## License
+
+@hankliu/rc-fabric is released under the MIT license.
