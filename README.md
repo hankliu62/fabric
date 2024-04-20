@@ -77,7 +77,7 @@ module.exports = {
 
 `npm start` 然后打开 http://localhost:8000/examples/
 
-线上案例: https://hankliu62.github.io/rc-footer
+线上案例: https://hankliu62.github.io/fabric
 
 ## 测试
 
@@ -87,4 +87,4 @@ npm run test
 
 ## License
 
-@hankliu/rc-fabric is released under the MIT license.
+@hankliu/fabric is released under the MIT license.
