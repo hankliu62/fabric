@@ -1,0 +1,99 @@
+{
+  "name": "@hankliu/fabric",
+  "version": "0.0.1",
+  "description": "A collection of configuration files containing prettier, eslint, stylelint",
+  "keywords": [
+    "eslint",
+    "prettier",
+    "stylelint"
+  ],
+  "homepage": "https://github.com/hankliu62/fabric",
+  "bugs": {
+    "url": "http://github.com/hankliu62/fabric/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git@github.com/hankliu62/fabric.git"
+  },
+  "author": "hank.liu",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "bin": {
+    "fabric": "./cli.js"
+  },
+  "files": [
+    "dist",
+    "cli.js"
+  ],
+  "scripts": {
+    "start": "dumi dev",
+    "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "now-build": "npm run docs:build",
+    "build": "rimraf dist && tsc --build tsconfig.json && npm run copy-files",
+    "copy-files": "copyfiles -u 1 src/.prettierignore ./dist/",
+    "deps": "yarn upgrade-interactive --latest",
+    "lib": "cross-env TIMING=1 eslint lib",
+    "lint": "npm run build && eslint ./src",
+    "lint-js": "npm run build && cd js-demo && npm run lint",
+    "prepublishOnly": "npm run build && npm test && np --no-cleanup --yolo --no-publish --any-branch",
+    "prettier": "prettier -c --write \"**/*\"",
+    "test": "npm run testTS && npm run testJS",
+    "testJS": "npm run build && cd js-demo && npm run lint",
+    "testTS": "npm run build && cd ts-demo && npm run lint"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.0.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/eslint-parser": "^7.24.1",
+    "@babel/eslint-plugin": "^7.23.5",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "chalk": "^5.3.0",
+    "eslint": "^9.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-formatter-pretty": "^6.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^28.2.0",
+    "eslint-plugin-jest-dom": "^5.4.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "eslint-plugin-testing-library": "^6.2.2",
+    "eslint-plugin-unicorn": "^52.0.0",
+    "fast-glob": "^3.3.2",
+    "globals": "^15.0.0",
+    "os-locale": "^6.0.2",
+    "postcss-less": "^6.0.0",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "prettier-plugin-two-style-order": "^1.0.1",
+    "stylelint": "^16.3.1",
+    "stylelint-config-css-modules": "^4.4.0",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-recess-order": "^5.0.1",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
+    "stylelint-order": "^6.0.4",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
+    "dumi": "^2.2.17",
+    "np": "^10.0.5",
+    "rimraf": "^5.0.5"
+  }
+}

@@ -1,0 +1,66 @@
+# @format
+
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      matrix:
+        node_version: [16.x, 12.x, 14.x]
+      fail-fast: false
+    runs-on: ubuntu-latest
+
+    steps:
+      # 将代码拉到虚拟机
+      - name: 获取源码 🛎️
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # 指定node版本
+      - name: 使用 Node@${{ matrix.node_version }} 🗜️
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+          registry-url: 'https://registry.yarnpkg.com'
+
+      - name: 获取lock文件 🎻
+        uses: actions/cache@v2
+        with:
+          path: package-temp-dir
+          key: lock-${{ github.sha }}
+
+      # 仅在不下载任何包的情况下，更新package-lock.json文件。
+      # 这个命令常用于确保所有的依赖项都是最新的，或者在你不确定更新了哪些包时刷新锁文件。
+      - name: 更新lock文件 📌
+        run: npm i --package-lock-only --force
+
+      # 缓存lock文件到package-temp-dir路径
+      - name: 缓存lock文件 🗼
+        run: |
+          if [ ! -d "package-temp-dir" ]; then
+            mkdir package-temp-dir
+          fi
+          cp package-lock.json package-temp-dir
+
+      - name: 获得 Package 锁路径 ⭐
+        id: package_lock_path
+        run: echo "PACKAGE_LOCK_PATH='**/package-temp-dir/${{ matrix.node_version }}/package-lock.json'" >> $GITHUB_ENV
+
+      # 依赖缓存策略
+      - name: Npm缓存 📁
+        id: node_modules_cache_id
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles(env.PACKAGE_LOCK_PATH) }}
+
+      # 依赖下载
+      - name: 安装依赖 📦
+        if: steps.node_modules_cache_id.outputs.cache-hit != 'true'
+        run: npm ci --force
+
+      - name: Demo 项目安装依赖 📦
+        run: cd ts-demo && npm install
+
+      - name: 测试 😈
+        run: npm run testJS
